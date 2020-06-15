@@ -25,17 +25,26 @@ module.exports = {
         use: [
           {
             loader: 'html-loader',
-          }
-        ]
+          },
+        ],
       },
       {
         test: /\.(s*)css$/,
         use: [
-          { 
-            loader: MiniCssExtractPlugin.loader 
+          {
+            loader: MiniCssExtractPlugin.loader,
           },
           'css-loader',
           'sass-loader',
+        ],
+      },
+      {
+        test: /\.(png|gif|jpg)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: { name: 'assets/[hash].[ext]' },
+          },
         ],
       },
     ],
