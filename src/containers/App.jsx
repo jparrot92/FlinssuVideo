@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Header from '../components/Header';
 import Search from '../components/Search';
 import Categories from '../components/Categories';
@@ -20,7 +20,7 @@ const App = () => {
       {initialState.mylist.length > 0 && (
         <Categories title='Mi Lista'>
           <Carousel>
-            <CarouselItem />
+            {initialState.mylist.map((item) => <CarouselItem key={item.id} {...item} />)}
           </Carousel>
         </Categories>
       )}
