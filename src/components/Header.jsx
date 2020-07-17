@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import gravatar from '../utils/gravatar';
 import { logoutRequest } from '../actions';
@@ -45,6 +46,11 @@ const Header = (props) => {
       </div>
     </header>
   );
+};
+
+Header.propTypes = {
+  user: PropTypes.object.isRequired,
+  logoutRequest: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => {
