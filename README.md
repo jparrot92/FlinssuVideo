@@ -10,7 +10,15 @@
   - [Configuración final: ESLint y Git Ignore](#configuración-final-eslint-y-git-ignore)
   - [Añadiendo imágenes con Webpack](#añadiendo-imágenes-con-webpack)
   - [Imports, Variables y Fuentes de Google en Sass](#imports-variables-y-fuentes-de-google-en-sass)
- - [Uso de una API de desarrollo (Fake API)](#uso-de-una-api-de-desarrollo-fake-api)
+  - [Uso de una API de desarrollo (Fake API)](#uso-de-una-api-de-desarrollo-fake-api)
+- [React Route y Redux](#react-route-y-redux)
+  - [Instalación React Route](#instalación-react-route)
+  - [Crear nuestro archivo de Rutas](#crear-nuestro-archivo-de-rutas)
+  - [Qué es Redux](#qué-es-redux)
+  - [Instalación de Redux](#instalación-de-redux)
+  - [Creando el Store de Redux](#creando-el-store-de-redux)
+  - [Creando los reducers](#creando-los-reducers)
+  - [Debug con Redux Devtools](#debug-con-redux-devtools)
   
 ## Crear una Aplicación con React JS
 
@@ -327,4 +335,92 @@ Ejecutar el servidor de JSON Server:
 
 ```bash
 json-server archivoParaTuAPI.json
+```
+
+## React Route y Redux
+
+### Instalación React Route
+Instalación de React Route:
+
+```bash
+npm install react-router-dom --save
+```
+
+### Crear nuestro archivo de Rutas
+Dentro de nuestro proyecto vamos a crear una carpeta llamada ***routes*** donde vamos a ir añadiendo las rutas que necesitemos en la aplicación.
+
+Las rutas que añadamos debemos definirlas con el componente ***Route*** y estas deben estar encapsuladas dentro del componente ***BrowserRouter*** del paquete de ***react-router-dom***. Para definir una ruta con el componente Route debemos pasarle las props de:
+
+* ***path*** para indicar la url.
+* ***exact*** si queremos que funcione única y exactamente con la url que le digamos.
+* ***component*** para indicarle el componente que va a renderizar.
+
+Debemos modificar nuestra configuración del entorno de desarrollo local para que pueda funcionar con el uso de rutas, debemos ir al archivo ***webpack.config.js*** y añadir este fragmento de código antes de ***plugins***:
+
+```js
+module.exports = {
+  {/*...*/}
+  devServer: {  
+    historyApiFallback: true,  
+  },
+  {/*...*/}
+}
+```
+
+### Qué es Redux
+Redux es una librería escrita en JavaScript, basada en la arquitectura Flux y creada por Dan Abramov, se basa en 3 principios fundamentales:
+
+1. Solamente hay una fuente de la verdad.
+2. El estado es de solo lectura.
+3. Solamente podemos utilizar funciones puras.
+
+Nuestra UI va a activar una action, esta action va a ejecutar un reducer para modificar la información del store, y al actualizarse el store la UI se va a modificar.
+
+### Instalación de Redux
+Instalación de Redux:
+
+```bash
+npm install redux react-redux --save
+```
+
+Dentro de nuestro proyecto vamos a crear una carpeta para nuestros **actions** y otra para los **reducers** que utilizaremos en Redux.
+
+El paquete ***react-redux*** nos proporciona un ***Provider*** para poder encapsular nuestros componentes por medio de un connect para poder transmitir la información que necesitemos del store a cada componente.
+
+### Creando el Store de Redux
+Para crear un Store necesitamos llamar a la función ***createStore*** del paquete de ***redux*** pasándole los parámetros del reducer y initialState.
+
+Para conectar un componente a Redux vamos a necesitar importar ***connect*** de ***react-redux***, connect va a aceptar dos parámetros:
+
+1. mapStateToProps: es una función que le va a indicar al provider qué información necesitamos del store.
+2. mapDispatchToProps: es un objeto con las distintas funciones para ejecutar una action en Redux.
+
+### Creando los reducers
+Un action de Redux va a contener dos elementos:
+
+* **type**: para indicar la acción que se va a ejecutar.
+* **payload**: es la información que estamos mandando al reducer.
+
+Dentro de los reducers usaremos un switch para separar la lógica por cada tipo de acción que tendremos en Redux.
+
+### Debug con Redux Devtools
+
+Redux Dev Tools nos va a servir mucho para entender mejor el flujo de nuestra información en nuestra aplicación y poder realizar debugging de manera sencilla.
+
+Solamente necesitas instalar la extensión según el navegador que tengas:
+
+* Chrome[redux-devtools-chrome](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd)
+* Firefox[redux-devtools-firefox](https://addons.mozilla.org/es/firefox/addon/reduxdevtools/)
+
+Una vez instalado dentro de nuestro index.js vamos a añadir el siguiente código:
+
+```js
+// importamos compose  
+import { createStore, compose } from ‘redux’;  
+...  
+  
+  
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose  
+  
+const store = createStore(reducer, initialState, composeEnhancers 
 ```
